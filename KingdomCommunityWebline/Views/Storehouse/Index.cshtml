@@ -1,0 +1,42 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<StorehouseItem>
+
+@{
+    ViewData["Title"] = "Kingdom Storehouse";
+}
+
+<h1>Kingdom Storehouse</h1>
+
+<p> Storehouse Items are below</p>
+
+<div>Click the "Request Form" button to request items. </div>
+<span> Request Form </span>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ItemID</th>
+            <th>Need</th>
+            <th>Description</th>
+            <th>DateAdded</th>
+            <th>RequestorName</th>
+            <th>RequestorChurch</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Need</td>
+                <td>@item.Description</td>
+                <td>@item.DateAdded</td>
+                <td>@item.RequestorName</td>
+                <td>@item.RequestorChurch</td>
+            </tr>
+        }
+    </tbody>
+
+</table>

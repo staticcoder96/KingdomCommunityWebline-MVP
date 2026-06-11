@@ -1,0 +1,67 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!-- HERO SECTION-->
+
+
+    <section class="hero-section text-white text-center"> 
+
+        <div class="overlay"></div>
+
+        <div class="hero-content w-100">
+
+            <h1 class="display-1 fw-bold">
+                Welcome To Kingdom Community Webline
+            </h1>
+
+            <p class="lead fst-italic">
+                "With God all things are possible" - Matthew 19:26
+            </p>
+
+            <p class="hero-text mt-4">
+                Connecting the community through faith and support.
+            </p>            
+        </div>       
+    </section>
+
+    <!-- SELECTION AREA -->
+<section class="container py-5">
+
+    <h2 class="mb-5 text-center">Please select from the options below:</h2>
+
+    <!-- flex container (side by side setup) -->
+    <div class="d-flex justify-content-between gap-4">
+
+        <!-- CARD 1 -->
+        <div class="card p-4 shadow w-50">
+
+            <p>
+                Kingdom Community Webline helps connect members...
+            </p>
+
+            <a asp-controller="Storehouse" asp-action="Index" class="btn btn-primary btn-lg mt-3">
+                Kingdom Storehouse
+            </a>
+
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="card p-4 shadow w-50">
+
+            <p>
+                Kingdom Community Webline helps connect members...
+            </p>
+
+            <a asp-controller="BarterCentre" asp-action="Index" class="btn btn-primary btn-lg mt-3">
+                Kingdom Barter Centre
+            </a>
+
+        </div>
+
+    </div>
+    
+   
+</section>
+
+
