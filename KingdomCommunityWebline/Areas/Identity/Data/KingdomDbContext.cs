@@ -15,6 +15,7 @@ public class KingdomDbContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<ApprovedMember> ApprovedMembers { get; set; }
     public DbSet<StorehouseItem> StorehouseItems { get; set; }
+    public DbSet<BarterCentreItem> BarterCentreItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

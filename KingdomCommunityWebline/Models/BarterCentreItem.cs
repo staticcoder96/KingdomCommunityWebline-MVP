@@ -27,23 +27,23 @@ namespace KingdomCommunityWebline.Models
         [Required]
         public string RequestorChurch { get; set; } = string.Empty;
 
-        public string RespondentName {  get; set; } = string.Empty;
+        public string? RespondentName {  get; set; }
 
-        public string RespondentChurch { get; set; } = string.Empty;
+        public string? RespondentChurch { get; set; }
 
-        public string CounterOffer { get; set; } = string.Empty;
+        public string? CounterOffer { get; set; }
 
-        public string CounterOfferStatus {  get; set; } = string.Empty;
+        public string? CounterOfferStatus {  get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime DateDelivered { get; set; }
+        public DateTime? DateDelivered { get; set; }
 
-        public string DeliveryMethod { get; set; } = string.Empty;
+        public string? DeliveryMethod { get; set; }
 
-        public bool Accepted { get; set; }
-        public string Status { get; set; } = string.Empty;
+        public string? Accepted { get; set; }
+        public string Status { get; set; } = "Open";
 
-        public string Comments { get; set; } = string.Empty;
+        public string? Comments { get; set; }
     }
 }
