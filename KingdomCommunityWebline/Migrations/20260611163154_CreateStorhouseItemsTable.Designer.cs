@@ -4,6 +4,7 @@ using KingdomCommunityWebline.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KingdomCommunityWebline.Migrations
 {
     [DbContext(typeof(KingdomDbContext))]
-    partial class KingdomDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260611163154_CreateStorhouseItemsTable")]
+    partial class CreateStorhouseItemsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

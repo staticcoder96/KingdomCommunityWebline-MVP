@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Cryptography.X509Certificates;
+
 
 namespace KingdomCommunityWebline.Models
 {
@@ -32,27 +32,27 @@ namespace KingdomCommunityWebline.Models
         public string RequestorChurchAddress { get; set; } = string.Empty;
 
         
-        public string DonorName { get; set; } = string.Empty;
+        public string? DonorName { get; set; }
 
         [Phone]
-        public string DonorPhoneNumber { get; set; } = string.Empty;
+        public string? DonorPhoneNumber { get; set; }
 
         
-        public string DonorChurch { get; set; } = string.Empty;
+        public string? DonorChurch { get; set; }
 
         
-        public string DonorChurchAddress { get; set; } = string.Empty;
+        public string? DonorChurchAddress { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime DateDelivered { get; set; }
+        public DateTime? DateDelivered { get; set; }
 
-        public string DeliveryMethod { get; set; } = string.Empty;
+        public string? DeliveryMethod { get; set; }
 
-        public bool Accepted { get; set; } 
-        public string Status { get; set; } = string.Empty;
+        public string? Accepted { get; set; } 
+        public string Status { get; set; } = "Open";
 
-        public string Comments { get; set; } = string.Empty;
+        public string? Comments { get; set; }
 
     }
 }
