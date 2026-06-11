@@ -1,35 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using KingdomCommunityWebline.Models;
+using KingdomCommunityWebline.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace KingdomCommunityWebline.Controllers
 {
     public class StorehouseController : Controller
     {
-        public IActionResult Index()
+        private readonly KingdomDbContext _context;
+
+        public StorehouseController(KingdomDbContext context)
         {
-            var items = new List<StorehouseItem>()
-            {
-                new StorehouseItem
-                {
-                    Id = 1,
-                    Need = "Rice",
-                    Description = "5 lb bag",
-                    DateAdded = DateTime.Now,
-                    RequestorName = "Charlie",
-                    RequestorChurch = "Angel Tabernacle"
-                },
+            _context = context;
+        }
 
-                new StorehouseItem
-                {
-                    Id = 2,
-                    Need = "Canned Beans",
-                    Description = "6 packs => 60 Total",
-                    DateAdded = DateTime.Now,
-                    RequestorName = "Donna",
-                    RequestorChurch = "Church on the Rock"
-                }
-            };
-
+        public async Task<IActionResult> Index()
+        {
+            var items = await _context.StorehouseItems.ToListAsync();
             return View(items);
         }
     }
