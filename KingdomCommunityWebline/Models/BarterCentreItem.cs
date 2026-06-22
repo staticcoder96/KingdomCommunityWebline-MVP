@@ -27,9 +27,17 @@ namespace KingdomCommunityWebline.Models
         [Required]
         public string RequestorChurch { get; set; } = string.Empty;
 
+        [Required]
+        public string RequestorChurchAddress { get; set; } = string.Empty;
+
         public string? RespondentName {  get; set; }
 
+        [Phone]
+        public string? RespondentPhoneNumber { get; set; }
+
         public string? RespondentChurch { get; set; }
+
+        public string? RespondentChurchAddress { get; set; }
 
         public string? CounterOffer { get; set; }
 

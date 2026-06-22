@@ -7,48 +7,266 @@
     ViewData["Title"] = "Kingdom Storehouse";
 }
 
-<h1>Kingdom Storehouse</h1>
+<div class="container pb-3">
 
-<p> Storehouse Items are below</p>
+    <h1>Kingdom Storehouse</h1>
 
-<div>Click the "Request Form" button to request items. </div>
-<span> Request Form </span>
+    <!--Filter & Request Bar-->
 
-<table id="storehouseTable" class="table table-striped">
-    <thead>
-        <tr>
-            <th>ItemID</th>
-            <th>Need</th>
-            <th>Description</th>
-            <th>DateAdded</th>
-            <th>RequestorName</th>
-            <th>RequestorChurch</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var item in Model)
-        {
+    <div class="row mb-3">
+        <div class="col">
+            <input type="date" id="startDate" class="form-control" />
+        </div>
+
+        <div class="col">
+            <input type="date" id="endDate" class="form-control" />
+        </div>
+
+        <div class="col">
+            <select id="statusFilter" class="form-control">
+                <option value="">Select a Status</option>
+                <option value="Open">Open</option>
+                <option value="Closed">Closed</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+        </div>
+
+        <div class="col">
+            <button class="btn btn-success" id="FilterBtn">Filter</button>
+        </div>
+
+        <div class="col text-end">
+            <button class="btn btn-success" onclick="openCreateModal()">+ New Request</button>
+        </div>
+    </div>
+
+</div>
+
+<div class="container pb-3">
+
+    <table id="storehouseTable" class="table table-striped">
+        <thead>
             <tr>
-                <td>@item.Id</td>
-                <td>@item.Need</td>
-                <td>@item.Description</td>
-                <td>@item.DateAdded.ToString("dd-MMMM-yyyy")</td>
-                <td>@item.RequestorName</td>
-                <td>@item.RequestorChurch</td>
+                <th>Item Number</th>
+                <th>Need</th>
+                <th>Description of the Need</th>
+                <th>Date Added</th>
+                <th>Requestor Name</th>
+                <th>Requestor Church</th>
+                <th>Requestor PhoneNumber</th>
+                <th>Requestor Church Address</th>
+                <th>Donor Name</th>
+                <th>Donor Church</th>
+                <th>Donor PhoneNumber</th>
+                <th>Donor Church Address</th>
+                <th>Date Delivered</th>
+                <th>Delivery Method</th>
+                <th>Accepted</th>
+                <th>Status</th>
+                <th>Comments</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @* @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Need</td>
+                    <td>@item.Description</td>
+                    <td>@item.DateAdded.ToString("dd-MMMM-yyyy")</td>
+                    <td>@item.RequestorName</td>
+                    <td>@item.RequestorChurch</td>
+                    <td>@item.RequestorPhoneNumber</td>
+                    <td>@item.RequestorChurchAddress</td>
+                    <td>@item.DonorName</td>
+                    <td>@item.DonorChurch</td>
+                    <td>@item.DonorPhoneNumber</td>
+                    <td>@item.DonorChurchAddress</td>
+                    <td>@item.DateDelivered</td>
+                    <td>@item.DeliveryMethod</td>
+                    <td>@item.Accepted</td>
+                    <td>@item.Status</td>
+                    <td>@item.Comments</td>
+                    <td>
+                        <button id="editBtn">Edit</button>
+                    </td>
+                </tr>
+            } *@
+        </tbody> 
+        </table>
+</div>
+
+
+
+<!--Modal Request Form-->
+<div class="modal fade" id="storehouseModal">
+    <div class="modal-dialog">
+        <div class="modal-content p-3">
+
+            <h4>Storehouse Request Form</h4>
+            <input type="hidden" id="itemId" />
+
+            <input class="form-control mb-2" id="need" placeholder="Need" />
+            <input class="form-control mb-2" id="description" placeholder="Description" />
+            <input class="form-control mb-2" id="requestorName" placeholder="Requestor Name" />
+            <input class="form-control mb-2" id="requestorChurch" placeholder="Requestor Church" />
+            <input class="form-control mb-2" id="RequestorPhoneNumber" placeholder="Requestor Phonenumber" />
+            <input class="form-control mb-2" id="RequestorChurchAddress" placeholder="Requestor Church Address" />
+            @* <input class="form-control mb-2" id="DonorName" placeholder="Donor Name" />
+            <input class="form-control mb-2" id="DonorChurch" placeholder="Donor Church" />
+            <input class="form-control mb-2" id="DonorPhoneNumber" placeholder="Donor Phonenumber" />
+            <input class="form-control mb-2" id="DonorChurchAddress" placeholder="Donor Church Address" />
+            <input type="date" class="form-control mb-2" id="DateDelivered" placeholder="Date Delivered" />
+            <select class="form-control mb-2" id="accepted" placeholder="Accepted">
+                <option value="">--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+            <select class="form-control mb-2" placeholder="Status">
+                <option value="">Select a Status</option>
+                <option value="Open">Open</option>
+                <option value="Closed">Closed</option>
+                <option value="Cancelled">Cancelled</option>
+            </select> *@
+            <textarea class="form-control mb-2" id="comments" placeholder="Comments"></textarea>
+
+            <button class="btn btn-success" onclick="saveItem()">Save</button>
+        </div>
+
+    </div>
+</div>
+
+<!--Modal Edit Form-->
+<div class="modal fade" id="storehouseEditModal">
+    <div class="modal-dialog">
+        <div class="modal-content p-3">
+
+            <h4>Storehouse Edit Form</h4>
+            <input type="hidden" id="itemId" />
+
+            <input class="form-control mb-2" id="need" placeholder="Need" />
+            <input class="form-control mb-2" id="description" placeholder="Description" />
+            <input class="form-control mb-2" id="requestorName" placeholder="Requestor Name" />
+            <input class="form-control mb-2" id="requestorChurch" placeholder="Requestor Church" />
+            <input class="form-control mb-2" id="RequestorPhoneNumber" placeholder="Requestor Phonenumber" />
+            <input class="form-control mb-2" id="RequestorChurchAddress" placeholder="Requestor Church Address" />
+            <input class="form-control mb-2" id="DonorName" placeholder="Donor Name" />
+            <input class="form-control mb-2" id="DonorChurch" placeholder="Donor Church" />
+            <input class="form-control mb-2" id="DonorPhoneNumber" placeholder="Donor Phonenumber" />
+            <input class="form-control mb-2" id="DonorChurchAddress" placeholder="Donor Church Address" />
+            <input type="date" class="form-control mb-2" id="DateDelivered" placeholder="Date Delivered" />
+            <select class="form-control mb-2" id="accepted" placeholder="Accepted">
+                <option value="">--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+            <select class="form-control mb-2" placeholder="Status">
+                <option value="">Select a Status</option>
+                <option value="Open">Open</option>
+                <option value="Closed">Closed</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+            <textarea class="form-control mb-2" id="comments" placeholder="Comments"></textarea>
+
+            <button class="btn btn-success" onclick="saveItem()">Save</button>
+        </div>
+    </div>
+</div>
+
+
+
 
 @section Scripts {
     <script>
+        //let table = new DataTable('#example');
+        let table;
+
         $(document).ready(function () {
-            $('#storehouseTable').DataTable({
+
+            table = $('#storehouseTable').DataTable({
+
                 pageLength: 10,
                 ordering: true,
                 searching: true,
-                responsive: true
+                responsive: true,
+
+                ajax: {
+                    url: '/Storehouse/GetStorehouseItems',
+                    data: function (d) {
+                        d.startDate = $('#startDate').val();
+                        d.endDate = $('#endDate').val();
+                        d.status = $('#statusFilter').val();
+                    },
+                    dataSrc: function (json) {
+                        console.log(json);
+                        return json;
+                    }
+                },
+
+                columns:[
+                    {data: "id"},
+                    {data: "need"},
+                    {data: "description"},
+                    {
+                        data: "dateAdded",
+                        render: function (data)
+                        {
+                            return new Date(data).toLocaleDateString();
+                        }
+                    },
+                    {data: "requestorName"},
+                    {data: "requestorChurch"},
+                    {data: "requestorPhoneNumber"},
+                    {data: "requestorChurchAddress"},
+                    {data: "donorName"},
+                    {data: "donorChurch"},
+                    {data: "donorPhoneNumber"},
+                    {data: "donorChurchAddress"},
+                    {data: "dateDelivered"},
+                    {data: "deliveryMethod"},
+                    {data: "accepted"},
+                    {data: "status"},
+                    {data: "comments"}
+                ]
             });
-        });
+
+            //Filter Button
+            $('#FilterBtn').click(function () {
+                table.ajax.reload();
+            });
+           
+        });        
+    
+
+        function openCreateModal()
+        {
+            $('#itemId').val('');
+            $('#storehouseModal').modal('show');
+        }
+
+        function saveItem() 
+        {
+            var model = {
+                need: $('#need').val(),
+                description: $('#description').val(),
+                requestorName: $('#requestorName').val(),
+                requestorChurch: $('#requestorChurch').val(),
+                RequestorPhoneNumber: $('#RequestorPhoneNumber').val(),
+                RequestorChurchAddress: $('#RequestorChurchAddress').val(),
+                Comments: $('#comments').val()
+            };
+
+            $.ajax({
+                url: '/Storehouse/Create',
+                type: 'POST',
+                data: model,
+                success: function () {
+                    $('#storehouseModal').modal('hide');
+                    table.ajax.reload(); //refresh table
+                }            
+            });
+        }
+
     </script>
 }

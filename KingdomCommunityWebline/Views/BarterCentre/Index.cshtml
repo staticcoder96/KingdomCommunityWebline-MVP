@@ -6,10 +6,210 @@
     ViewData["Title"] = "Kingdom Barter Centre";
 }
 
-<h1> Kingdom Barter Centre </h1>
 
-<p> Items for Bartering are below</p>
 
-<div>Click the "Add Items" button to add items to the barter list. </div>
-<span> Add Items </span>
+<div class="container pb-3">
+
+    <h1> Kingdom Barter Centre </h1>
+
+    <!--Filter & Request Bar-->
+
+    <div class="row mb-3">
+        <div class="col">
+            <input type="date" id="startDate" class="form-control" />
+        </div>
+
+        <div class="col">
+            <input type="date" id="endDate" class="form-control" />
+        </div>
+
+        <div class="col">
+            <select id="statusFilter" class="form-control">
+                <option value="">Select a Status</option>
+                <option value="Open">Open</option>
+                <option value="Closed">Closed</option>
+                <option value="Cancelled">Cancelled</option>
+            </select>
+        </div>
+
+        <div class="col">
+            <button class="btn btn-success" id="FilterBtn">Filter</button>
+        </div>
+
+        <div class="col text-end">
+            <button class="btn btn-success" onclick="openCreateModal()">+ New Request</button>
+        </div>
+    </div>
+</div>
+
+<div class="container pb-3">
+
+    <table id="bartercentreTable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Item Number</th>
+                <th>Item</th>
+                <th>Description of the Item</th>
+                <th>Date Added</th>
+                <th>Requestor Name</th>
+                <th>Requestor Church</th>
+                <th>Requestor PhoneNumber</th>
+                <th>Requestor Church Address</th>
+                <th>Respondent Name</th>
+                <th>RespondentPhoneNumber</th>
+                <th>Respondent Church</th>
+                <th>RespondentChurchAddress</th>
+                <th>CounterOffer</th>
+                <th>CounterOfferStatus</th>
+                <th>Date Delivered</th>
+                <th>Delivery Method</th>
+                <th>Accepted</th>
+                <th>Status</th>
+                <th>Comments</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+        </tbody>
+    </table>
+
+</div>
+
+
+
+<!--Modal Request Form-->
+<div class="modal fade" id="bartercentreModal">
+    <div class="modal-dialog">
+        <div class="modal-content p-3">
+
+            <h4>Barter Centre Request Form</h4>
+            <input type="hidden" id="itemId" />
+
+            <input class="form-control mb-2" id="item" placeholder="Item" />
+            <input class="form-control mb-2" id="description" placeholder="Description" />
+            <input class="form-control mb-2" id="requestorName" placeholder="Requestor Name" />
+            <input class="form-control mb-2" id="requestorChurch" placeholder="Requestor Church" />
+            <input class="form-control mb-2" id="RequestorPhoneNumber" placeholder="Requestor Phonenumber" />
+            <input class="form-control mb-2" id="RequestorChurchAddress" placeholder="Requestor Church Address" />
+            @* <input class="form-control mb-2" id="DonorName" placeholder="Donor Name" />
+            <input class="form-control mb-2" id="DonorChurch" placeholder="Donor Church" />
+            <input class="form-control mb-2" id="DonorPhoneNumber" placeholder="Donor Phonenumber" />
+            <input class="form-control mb-2" id="DonorChurchAddress" placeholder="Donor Church Address" />
+            <input type="date" class="form-control mb-2" id="DateDelivered" placeholder="Date Delivered" />
+            <select class="form-control mb-2" id="accepted" placeholder="Accepted">
+                <option value="">--Select--</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+            <select class="form-control mb-2" placeholder="Status">
+                <option value="">Select a Status</option>
+                <option value="Open">Open</option>
+                <option value="Closed">Closed</option>
+                <option value="Cancelled">Cancelled</option>
+            </select> *@
+            <textarea class="form-control mb-2" id="comments" placeholder="Comments"></textarea>
+
+            <button class="btn btn-success" onclick="saveItem()">Save</button>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        //let table = new DataTable('#example');
+        let table;
+
+        $(document).ready(function () {
+
+            table = $('#bartercentreTable').DataTable({
+
+                pageLength: 10,
+                ordering: true,
+                searching: true,
+                responsive: true,
+
+                ajax: {
+                    url: '/BarterCentre/GetBarterCentreItems',
+                    data: function (d) {
+                        d.startDate = $('#startDate').val();
+                        d.endDate = $('#endDate').val();
+                        d.status = $('#statusFilter').val();
+                    },
+                    dataSrc: function (json) {
+                        console.log(json);
+                        return json;
+                    }
+                },
+
+                columns:[
+                    {data: "id"},
+                    {data: "item"},
+                    {data: "description"},
+                    {
+                        data: "dateAdded",
+                        render: function (data)
+                        {
+                            return new Date(data).toLocaleDateString();
+                        }
+                    },
+                    {data: "requestorName"},
+                    {data: "requestorChurch"},
+                    {data: "requestorPhoneNumber"},
+                    {data: "requestorChurchAddress"},
+                    {data: "respondentName"},
+                    {data: "respondentPhoneNumber"},
+                    {data: "respondentChurch"},
+                    {data: "respondentChurchAddress"},
+                    {data: "counterOffer"},
+                    {data: "counterOfferStatus"},
+                    {data: "dateDelivered"},
+                    {data: "deliveryMethod"},
+                    {data: "accepted"},
+                    {data: "status"},
+                    {data: "comments"}
+                ]
+            });
+
+            //Filter Button
+            $('#FilterBtn').click(function () {
+                table.ajax.reload();
+            });
+
+        });
+
+
+        function openCreateModal()
+        {
+            $('#itemId').val('');
+            $('#bartercentreModal').modal('show');
+        }
+
+        function saveItem()
+        {
+            var model = {
+                need: $('#item').val(),
+                description: $('#description').val(),
+                requestorName: $('#requestorName').val(),
+                requestorChurch: $('#requestorChurch').val(),
+                RequestorPhoneNumber: $('#RequestorPhoneNumber').val(),
+                RequestorChurchAddress: $('#RequestorChurchAddress').val(),
+                Comments: $('#comments').val()
+            };
+
+            $.ajax({
+                url: '/BarterCentre/Create',
+                type: 'POST',
+                data: model,
+                success: function () {
+                    $('#bartercentreModal').modal('hide');
+                    table.ajax.reload(); //refresh table
+                }
+            });
+        }
+
+    </script>
+}
 
