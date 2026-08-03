@@ -25,43 +25,54 @@
         </div>       
     </section>
 
-    <!-- SELECTION AREA -->
-<section class="container py-5">
+    @* Only authoried users will see the storehouse and barter centre buttons *@
 
-    <h2 class="mb-5 text-center">Please select from the options below:</h2>
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <!-- SELECTION AREA -->
+        <section class="container py-5">
 
-    <!-- flex container (side by side setup) -->
-    <div class="d-flex justify-content-between gap-4">
+            <h2 class="mb-5 text-center">Please select from the options below:</h2>
 
-        <!-- CARD 1 -->
-        <div class="card p-4 shadow w-50">
+            <!-- flex container (side by side setup) -->
+            <div class="d-flex justify-content-between gap-4">
 
-            <p>
-                Kingdom Community Webline helps connect members...
-            </p>
+                <!-- CARD 1 -->
+                <div class="card p-4 shadow w-50">
 
-            <a asp-controller="Storehouse" asp-action="Index" class="btn btn-primary btn-lg mt-3">
-                Kingdom Storehouse
-            </a>
+                    <p>
+                        Kingdom Community Webline helps connect members...
+                    </p>
 
-        </div>
+                    <a asp-controller="Storehouse" asp-action="Index" class="btn btn-primary btn-lg mt-3">
+                        Kingdom Storehouse
+                    </a>
 
-        <!-- CARD 2 -->
-        <div class="card p-4 shadow w-50">
+                </div>
 
-            <p>
-                Kingdom Community Webline helps connect members...
-            </p>
+                <!-- CARD 2 -->
+                <div class="card p-4 shadow w-50">
 
-            <a asp-controller="BarterCentre" asp-action="Index" class="btn btn-primary btn-lg mt-3">
-                Kingdom Barter Centre
-            </a>
+                    <p>
+                        Kingdom Community Webline helps connect members...
+                    </p>
 
-        </div>
+                    <a asp-controller="BarterCentre" asp-action="Index" class="btn btn-primary btn-lg mt-3">
+                        Kingdom Barter Centre
+                    </a>
 
-    </div>
-    
-   
-</section>
+                </div>
 
+            </div>
+        </section>
+
+    }
+    else
+    {
+        <p class="text-center mt-4">
+            Please log in to access the Storehouse and Barter Centre.
+        </p>
+    }
+
+  
 

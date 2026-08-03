@@ -20,6 +20,7 @@ namespace KingdomCommunityWebline.Models
         [Phone]
         public string PhoneNumber { get; set; } = string.Empty;
 
+
         public bool IsRegistered { get; set; } = false;
     }
 }

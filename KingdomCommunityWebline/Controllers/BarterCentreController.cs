@@ -2,9 +2,11 @@
 using KingdomCommunityWebline.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KingdomCommunityWebline.Controllers
 {
+    [Authorize]
     public class BarterCentreController : Controller
     {
         private readonly KingdomDbContext _context;

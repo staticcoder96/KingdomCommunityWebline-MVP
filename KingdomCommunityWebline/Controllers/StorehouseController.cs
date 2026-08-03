@@ -3,9 +3,11 @@ using KingdomCommunityWebline.Models; //allows us to use our Models
 using KingdomCommunityWebline.Data; //allows us to talk to the database
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http.HttpResults;//use methods like ToListAsync() etc
+using Microsoft.AspNetCore.Authorization;
 
 namespace KingdomCommunityWebline.Controllers
 {
+    [Authorize]
     public class StorehouseController : Controller
     {
         private readonly KingdomDbContext _context;

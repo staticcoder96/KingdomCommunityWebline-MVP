@@ -1,0 +1,33 @@
+﻿
+@model KingdomCommunityWebline.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Member Login";
+
+}
+
+<div class="container mt-5" style="max-width:500px;">
+    <h2 class="text-center mb-4">Member Login</h2>
+
+    <p class="text-center">
+        Enter your email address to verify that you are an approved member.
+    </p>
+
+    <form asp-action="Login" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="mb-3">
+            <label asp-for="EmailAddress" class="form-label">Email Address</label>
+            <input asp-for="EmailAddress" class="form-control" />
+            <span asp-validation-for="EmailAddress" class="text-danger"></span>
+        </div>
+
+        <button class="btn btn-primary w-100" type="submit">Continue</button>
+    </form>
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
+
+

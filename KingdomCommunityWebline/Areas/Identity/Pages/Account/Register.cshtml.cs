@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -22,6 +21,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace KingdomCommunityWebline.Areas.Identity.Pages.Account
@@ -42,7 +42,8 @@ namespace KingdomCommunityWebline.Areas.Identity.Pages.Account
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender, KingdomDbContext context)
+            IEmailSender emailSender, 
+            KingdomDbContext context)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -50,8 +51,8 @@ namespace KingdomCommunityWebline.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
-            _context = context;
-
+            //This gives the Register page access to your ApprovedMembers table.
+            _context = context; 
         }
 
         /// <summary>
@@ -111,10 +112,35 @@ namespace KingdomCommunityWebline.Areas.Identity.Pages.Account
        
 
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string? returnUrl = null, string? email = null)
         {
             ReturnUrl = returnUrl;
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            //Get the email passed from my HomeController
+            if (string.IsNullOrEmpty(email))
+            {
+                return RedirectToAction("Login", "Home");
+
+            }
+
+                var member =  _context.ApprovedMembers
+                    .FirstOrDefault(x => x.EmailAddress == email);
+
+                if (member != null)
+                {
+                    //Now the page already knows who the approved member is
+                    Input = new InputModel
+                    {
+                        Email = member.EmailAddress
+                    };
+                }else
+                {
+                  return RedirectToAction("login", "Home");
+                }
+
+                //Without that line, the Register page would never be displayed.
+                return Page();                   
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -146,7 +172,7 @@ namespace KingdomCommunityWebline.Areas.Identity.Pages.Account
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
-                if (result.Succeeded)
+                if (result.Succeeded && approvedMember != null)
                 {
                     approvedMember.IsRegistered = true;
                     await _context.SaveChangesAsync();
